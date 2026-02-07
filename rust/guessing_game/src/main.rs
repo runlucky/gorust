@@ -7,16 +7,29 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1..101);
 
-    println!("君の予想は？");
+    println!("秘密の数字は: {secret_number}");
 
-    let mut guess = String::new();
+    loop {
+        println!("君の予想は？");
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+        let mut guess = String::new();
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("読み込めませんでした");
+
+        let guess: u32 = guess
+            .trim()
+            .parse()
+            .expect("数字を入力してください");
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("小さい"),
+            Ordering::Greater => println!("大きい"),
+            Ordering::Equal => println!("あたり！"),
+        }
+
     }
+
 
 }

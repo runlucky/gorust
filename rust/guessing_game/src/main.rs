@@ -18,10 +18,12 @@ fn main() {
             .read_line(&mut guess)
             .expect("読み込めませんでした");
 
-        let guess: u32 = guess
+        let guess: u32 = match guess
             .trim()
-            .parse()
-            .expect("数字を入力してください");
+            .parse() {
+                Ok(number) => number,
+                Err(e) => continue
+            };
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("小さい"),

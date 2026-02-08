@@ -1,15 +1,24 @@
 fn main() {
-    let mut counter = 0;
+    let array = [1, 2, 3, 4, 5];
 
-    let result = loop {
-        counter += 1;
+    print!("Element [");
+    for element in array {
+        print!("{}, ", element);
+    }
+    println!("]");
 
-        if counter == 10 {
-            break counter;
-        }
-    };
+    let a1 = (1..5);
+    let a2 = (1..5).rev();
 
-    println!("value: {result}");
+    for element in a1 {
+        print!("{} ", element);
+    }
+    println!();
+    for element in a2 {
+        print!("{} ", element);
+    }
+    println!();
+    
 
 }
 

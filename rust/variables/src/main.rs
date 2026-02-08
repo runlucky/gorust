@@ -1,10 +1,20 @@
 fn main() {
-    let mut x = 5;
+    let mut counter = 0;
 
-    println!("The value of x is: {x}");
+    let result = loop {
+        counter += 1;
 
-    x = 6;
+        if counter == 10 {
+            break counter;
+        }
+    };
 
-    println!("The value of x is: {x}");
+    println!("value: {result}");
 
+}
+
+fn get_value() -> i32 {
+    let x = 10;
+
+    return x;
 }

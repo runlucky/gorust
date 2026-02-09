@@ -14,10 +14,10 @@ impl Temperature {
         use TemperatureUnit::*;
 
         match (self.unit, unit) {
-            (Celsius, Celsius) => self.value,
+            (Celsius   , Celsius   ) => self.value,
             (Fahrenheit, Fahrenheit) => self.value,
-            (Celsius, Fahrenheit) => self.value * 1.8 + 32.0,
-            (Fahrenheit, Celsius) => (self.value - 32.0) / 1.8,
+            (Celsius   , Fahrenheit) => self.value * 1.8 + 32.0,
+            (Fahrenheit, Celsius   ) => (self.value - 32.0) / 1.8,
         }
     }
 }

@@ -4,10 +4,26 @@ use math::square;
 use std::io::stdin;
 
 fn main() {
-
     let user = get_user();
     user.print();
+}
 
+// 同時に複数の参照は取得できる
+fn mut_test1() {
+    let s = String::from("hello");
+
+    let s1 = &s;
+    let s2 = &s;
+    println!("{}, {}", s1, s2);
+}
+
+// 可変参照は他に誰も参照していなければ取得できる
+fn mut_test2() {
+    let mut s = String::from("hello");
+
+    let s1 = &mut s;
+    s1.push_str(", world");
+    println!("{}", s1);
 }
 
 fn please_input_number() {

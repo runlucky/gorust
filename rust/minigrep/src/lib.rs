@@ -1,29 +1,8 @@
-use std::fs;
 use std::error::Error;
-use std::env;
+use std::fs;
 
-pub struct Config {
-    pub query: String,
-    pub file: String,
-    pub ignore_case: bool
-}
-
-impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("引数が足りません")
-        }
-
-        let query = args[1].clone();
-        let file = args[2].clone();
-
-        let ignore_case = env::var("IGNORE_CASE").is_ok();
-
-        
-        Ok(Config { query, file, ignore_case })
-    }
-}
-
+mod config;
+pub use config::Config;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(&config.file)?;

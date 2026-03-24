@@ -1,5 +1,7 @@
 use std::env;
 use std::fs;
+use std::process;
+use std::error::Error;
 
 fn main() {
     // コマンドラインから引数を受け取るためにはstd::env::args関数が必要
@@ -7,20 +9,22 @@ fn main() {
     
     let config = Config::build(&args).unwrap_or_else(|err| {
         println!("引数解析時にエラーが発生しました: {err}");
-        std::process::exit(1);
+        process::exit(1);
     });
 
     println!("クエリ: {}", config.query);
     println!("ファイル: {}", config.file);
 
+    if let Err(e) = run(config) {
+        println!("アプリケーションエラー: {e}");
+        process::exit(1);
+    }
+}
 
-
-    let contents = fs::read_to_string(&config.file)
-        .expect("ファイルを読み込むことができるはずでしたが、失敗しました。");
-
+fn run (config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(&config.file)?;
     println!("ファイルの中身:\n{contents}");
-
-
+    Ok(())
 }
 
 struct Config {

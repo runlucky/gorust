@@ -5,8 +5,10 @@ fn main() {
     // コマンドラインから引数を受け取るためにはstd::env::args関数が必要
     let args: Vec<String> = env::args().collect();
     
-    // let query = &args[1];
-    let config = Config::new(&args);
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("引数解析時にエラーが発生しました: {err}");
+        std::process::exit(1);
+    });
 
     println!("クエリ: {}", config.query);
     println!("ファイル: {}", config.file);
@@ -27,14 +29,14 @@ struct Config {
 }
 
 impl Config {
-    fn new(args: &[String]) -> Config {
+    fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
-            panic!("引数が足りません")
+            return Err("引数が足りません")
         }
 
         let query = args[1].clone();
         let file = args[2].clone();
         
-        Config { query, file }
+        Ok(Config { query, file })
     }
 }

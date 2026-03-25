@@ -1,16 +1,16 @@
 fn main() {
-    let mut list = vec![1, 2, 3];
+    let list = vec![1, 2, 3];
 
     println!("クロージャの定義前: {:?}", list);
-    let mut borrows_mutably = || list.push(7); // ここでlistを可変参照している
 
-    // ↑で可変参照したため、これ以上listを参照できない
-    // println!("クロージャの呼び出し前: {:?}", list);
+    // 別スレッドに所有権をmoveする
+    // moveしないと、元スレッドが破棄された場合に不正な参照になってしまう。
+    std::thread::spawn(move || println!("スレッドから: {:?}", list))
+        .join()
+        .unwrap();
 
-    borrows_mutably();
-
-    // クロージャを使い終わったので、listを参照できるようになった
-    println!("クロージャの呼び出し後: {:?}", list);
+    // listの所有権はmoveしたためもう参照できない
+    // println!("クロージャの呼び出し後: {:?}", list);
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

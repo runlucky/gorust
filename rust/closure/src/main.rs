@@ -1,5 +1,11 @@
 fn main() {
-    println!("Hello, world!");
+    let list = vec![1, 2, 3];
+
+    println!("クロージャの定義前: {:?}", list);
+    let only_borrows = || println!("クロージャから: {:?}", list);
+    println!("クロージャの呼び出し前: {:?}", list);
+    only_borrows();
+    println!("クロージャの呼び出し後: {:?}", list);
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -62,5 +68,17 @@ mod tests {
         let color = inventory.giveaway(Some(ShirtColor::Blue));
 
         assert_eq!(ShirtColor::Blue, color);
+    }
+
+
+    #[test]
+    fn ユーザが好みを指定していない場合は在庫が多い色を返すこと() {
+        let inventory = Inventory { shirts: vec![
+            ShirtColor::Red, ShirtColor::Red, ShirtColor::Blue
+        ]};
+
+        let color = inventory.giveaway(None);
+
+        assert_eq!(ShirtColor::Red, color);
     }
 }

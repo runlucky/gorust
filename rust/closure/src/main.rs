@@ -1,10 +1,15 @@
 fn main() {
-    let list = vec![1, 2, 3];
+    let mut list = vec![1, 2, 3];
 
     println!("クロージャの定義前: {:?}", list);
-    let only_borrows = || println!("クロージャから: {:?}", list);
-    println!("クロージャの呼び出し前: {:?}", list);
-    only_borrows();
+    let mut borrows_mutably = || list.push(7); // ここでlistを可変参照している
+
+    // ↑で可変参照したため、これ以上listを参照できない
+    // println!("クロージャの呼び出し前: {:?}", list);
+
+    borrows_mutably();
+
+    // クロージャを使い終わったので、listを参照できるようになった
     println!("クロージャの呼び出し後: {:?}", list);
 }
 
@@ -44,7 +49,7 @@ impl Inventory {
     }
 }
 
-
+#[cfg(test)]
 mod tests {
     use super::*;
 
